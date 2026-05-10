@@ -1,0 +1,52 @@
+name: CI — Zabbix MikroTik Monitoring
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  yaml-validation:
+    name: Validation de la syntaxe YAML
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install PyYAML
+        run: pip install PyYAML
+
+      - name: Validate YAML files
+        run: |
+          python -c '
+          import yaml, glob, sys
+          error = False
+          for filepath in glob.glob("**/*.yaml", recursive=True):
+              try:
+                  with open(filepath, "r") as f:
+                      yaml.safe_load(f)
+                  print(f"✅ {filepath} is valid YAML")
+              except Exception as e:
+                  print(f"❌ Error in {filepath}:\n{e}")
+                  error = True
+          if error:
+              sys.exit(1)
+          '
+
+  markdown-lint:
+    name: Vérification Markdown
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install markdownlint-cli
+        run: npm install -g markdownlint-cli
+
+      - name: Run markdownlint
+        # On désactive certaines règles strictes de formatage pour éviter les erreurs sur la doc
+        run: markdownlint '**/*.md' --disable MD013 MD033 MD041
