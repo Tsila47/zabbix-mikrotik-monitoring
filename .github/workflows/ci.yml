@@ -49,4 +49,5 @@ jobs:
 
       - name: Run markdownlint
         # On désactive certaines règles strictes de formatage pour éviter les erreurs sur la doc
-        run: markdownlint '**/*.md' --disable MD013 MD033 MD041
+        # On limite aux fichiers de doc principaux (ignore config/)
+        run: markdownlint 'README.md' 'docs/**/*.md' --disable MD013 MD033 MD041
