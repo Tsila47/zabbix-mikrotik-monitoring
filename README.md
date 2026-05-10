@@ -1,5 +1,6 @@
 # 📡 Monitoring a MikroTik Router via SNMP with Zabbix
 
+[![CI](https://github.com/Tsila47/zabbix-mikrotik-monitoring/actions/workflows/ci.yml/badge.svg)](https://github.com/Tsila47/zabbix-mikrotik-monitoring/actions/workflows/ci.yml)
 ## 📌 Project Description
 
 This project demonstrates a complete network monitoring setup for a MikroTik router using the SNMP protocol with Zabbix.
